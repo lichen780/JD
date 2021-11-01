@@ -13,13 +13,13 @@
 
 =====================Loon================
 [Script]
-cron "5-45/20 * * * *" script-path=jd_health_collect.js, tag=东东健康社区收集能量
+cron "5-45/20 10,17 * * *" script-path=jd_health_collect.js, tag=东东健康社区收集能量
 
 ====================Surge================
-东东健康社区收集能量 = type=cron,cronexp="5-45/20 * * * *",wake-system=1,timeout=3600,script-path=jd_health_collect.js
+东东健康社区收集能量 = type=cron,cronexp="5-45/20 10,17 * * *",wake-system=1,timeout=3600,script-path=jd_health_collect.js
 
 ============小火箭=========
-东东健康社区收集能量 = type=cron,script-path=jd_health_collect.js, cronexpr="5-45/20 * * * *", timeout=3600, enable=true
+东东健康社区收集能量 = type=cron,script-path=jd_health_collect.js, cronexpr="5-45/20 10,17 * * *", timeout=3600, enable=true
  */
 const $ = new Env("东东健康社区收集能量收集");
 const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
