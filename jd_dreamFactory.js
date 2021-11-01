@@ -15,13 +15,13 @@
 
 ================Loon==============
 [Script]
-cron "10 * * * *" script-path=jd_dreamFactory.js,tag=京喜工厂
+cron "10 5,14 * * *" script-path=jd_dreamFactory.js,tag=京喜工厂
 
 ===============Surge=================
-京喜工厂 = type=cron,cronexp="10 * * * *",wake-system=1,timeout=3600,script-path=jd_dreamFactory.js
+京喜工厂 = type=cron,cronexp="10 5,14 * * *",wake-system=1,timeout=3600,script-path=jd_dreamFactory.js
 
 ============小火箭=========
-京喜工厂 = type=cron,script-path=jd_dreamFactory.js, cronexpr="10 * * * *", timeout=3600, enable=true
+京喜工厂 = type=cron,script-path=jd_dreamFactory.js, cronexpr="10 5,14 * * *", timeout=3600, enable=true
 
  */
 // prettier-ignore
@@ -43,10 +43,7 @@ let tuanActiveId = ``, hasSend = false;
 const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://wqsd.jd.com/pingou/dream_factory/index.html%22%20%7D`;
 let cookiesArr = [], cookie = '', message = '', allMessage = '';
 const inviteCodes = [
-  'AXDgNYKNLs51h24hm7ZK-w==@2pMYXE95BIkCIGcO6UzTpQ==@DgHnSIl_Xks49TJjxzo7nw==@UO68abNzUTGatLzR4Z4RTg==@xJctChTp3ru2blH_WwFopg==@W2y011egxw55xNDYP8Xpww==@NRjbnfYENRVL9QSnLZZNrA==@dmgVOhr4JdUp1CG78ohkWw==@6nURqZ5tze71d9TbZGQg3Q==',
-  'AXDgNYKNLs51h24hm7ZK-w==@2pMYXE95BIkCIGcO6UzTpQ==@DgHnSIl_Xks49TJjxzo7nw==@UO68abNzUTGatLzR4Z4RTg==@xJctChTp3ru2blH_WwFopg==@W2y011egxw55xNDYP8Xpww==@NRjbnfYENRVL9QSnLZZNrA==@dmgVOhr4JdUp1CG78ohkWw==@6nURqZ5tze71d9TbZGQg3Q==',
-  'AXDgNYKNLs51h24hm7ZK-w==@2pMYXE95BIkCIGcO6UzTpQ==@DgHnSIl_Xks49TJjxzo7nw==@UO68abNzUTGatLzR4Z4RTg==@xJctChTp3ru2blH_WwFopg==@W2y011egxw55xNDYP8Xpww==@NRjbnfYENRVL9QSnLZZNrA==@dmgVOhr4JdUp1CG78ohkWw==@6nURqZ5tze71d9TbZGQg3Q==',
-  'AXDgNYKNLs51h24hm7ZK-w==@2pMYXE95BIkCIGcO6UzTpQ==@DgHnSIl_Xks49TJjxzo7nw==@UO68abNzUTGatLzR4Z4RTg==@xJctChTp3ru2blH_WwFopg==@W2y011egxw55xNDYP8Xpww==@NRjbnfYENRVL9QSnLZZNrA==@dmgVOhr4JdUp1CG78ohkWw==@6nURqZ5tze71d9TbZGQg3Q==',
+ 
 ];
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
