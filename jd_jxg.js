@@ -2,6 +2,7 @@
 活动：京小鸽吾悦寄
 活动路径：边玩边赚-》京小鸽吾悦寄
 很小的几率能抽到实物。
+cron 39 10 * * *
 */
 const $ = new Env('京小鸽吾悦寄');
 const notify = $.isNode() ? require('./sendNotify') : '';

@@ -8,7 +8,7 @@ Last Modified time: 2021-05-19 16:27:18
 ================QuantumultX==================
 [task_local]
 #京东全民开红包
-1 1,2,23 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_redPacket.js, tag=京东全民开红包, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
+20 4 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_redPacket.js, tag=京东全民开红包, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
 ===================Loon==============
 [Script]
 cron "1 1,2,23 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_redPacket.js, tag=京东全民开红包
@@ -120,9 +120,9 @@ async function redPacket() {
     await doLuckDrawFun();//券后9.9抽奖
     await taskHomePage();//查询任务列表
     await doTask();//领取任务，做任务，领取红包奖励
-    await h5activityIndex();//查询红包基础信息
-    await red();//红包任务(发起助力红包,领取助力红包等)
-    await h5activityIndex();
+    //await h5activityIndex();//查询红包基础信息
+    //await red();//红包任务(发起助力红包,领取助力红包等)
+    //await h5activityIndex();
   } catch (e) {
     $.logErr(e);
   }
