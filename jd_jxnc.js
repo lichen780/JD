@@ -18,13 +18,13 @@
 0 18 * * * jd_jxnc.js, tag=京喜农场, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jxnc.png, enabled=true
 =========================Loon=============================
 [Script]
-cron "0 9,12,18 * * *" script-path=jd_jxnc.js,tag=京喜农场
+cron "0 18 * * *" script-path=jd_jxnc.js,tag=京喜农场
 
 =========================Surge============================
-京喜农场 = type=cron,cronexp="0 9,12,18 * * *",timeout=3600,script-path=jd_jxnc.js
+京喜农场 = type=cron,cronexp="0 18 * * *",timeout=3600,script-path=jd_jxnc.js
 
 =========================小火箭===========================
-京喜农场 = type=cron,script-path=jd_jxnc.js, cronexpr="0 9,12,18 * * *", timeout=3600, enable=true
+京喜农场 = type=cron,script-path=jd_jxnc.js, cronexpr="0 18 * * *", timeout=3600, enable=true
 */
 
 const $ = new Env('京喜农场');
