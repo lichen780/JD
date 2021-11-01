@@ -10,13 +10,13 @@
 
 ================Loon==============
 [Script]
-cron "15 3,6 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js,tag=内容鉴赏官
+cron "15 5 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js,tag=内容鉴赏官
 
 ===============Surge=================
-内容鉴赏官 = type=cron,cronexp="15 3,6 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js
+内容鉴赏官 = type=cron,cronexp="15 5 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js
 
 ============小火箭=========
-内容鉴赏官 = type=cron,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js, cronexpr="15 3,6 * * *", timeout=3600, enable=true
+内容鉴赏官 = type=cron,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_connoisseur.js, cronexpr="15 5 * * *", timeout=3600, enable=true
  */
 const $ = new Env('内容鉴赏官');
 const notify = $.isNode() ? require('./sendNotify') : '';
