@@ -71,7 +71,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
       await showMsg();
     }
   }
-  for (let i = 0; i < cookiesArr.length; i++) {
+ /* for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     $.index = i + 1;
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
@@ -106,7 +106,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
         }
       }
     }
-  }
+  }*/
 })()
     .catch((e) => {
       $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
