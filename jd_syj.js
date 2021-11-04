@@ -551,7 +551,7 @@ async function distributeBeanActivity() {
       await openTuan()
       if ($.hasOpen) await getUserTuanInfo()
     }
-    if ($.tuan && $.tuan.hasOwnProperty('assistedPinEncrypted') && $.assistStatus !== 3) {
+   /* if ($.tuan && $.tuan.hasOwnProperty('assistedPinEncrypted') && $.assistStatus !== 3) {
       $.tuanList.push($.tuan);
       const code = Object.assign($.tuan, {"time": Date.now()});
       $.http.post({
@@ -574,7 +574,7 @@ async function distributeBeanActivity() {
           }
         }
       }).catch((e) => console.log(`【赚京豆-瓜分京豆】邀请码提交异常:${e}`));
-    }
+    }*/
   } catch (e) {
     $.logErr(e);
   }
