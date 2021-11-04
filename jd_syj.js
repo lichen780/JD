@@ -75,14 +75,14 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     }
   }
   console.log(`\n\n内部互助 【赚京豆(微信小程序)-瓜分京豆】活动(优先内部账号互助(需内部cookie数量大于${$.assistNum || 4}个)，如有剩余助力次数则给作者和随机团助力)\n`)
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < cookiesArr.length; i++) {
     $.canHelp = true
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       if ($.canHelp && (cookiesArr.length > $.assistNum)) {
         if ($.tuanList.length) console.log(`开始账号内部互助 赚京豆-瓜分京豆 活动，优先内部账号互助`)
-        for (let j = 0; j < $.tuanList.length; ++j) {
+        for (let j = 0; j < 2; ++j) {
           console.log(`账号 ${$.UserName} 开始给 【${$.tuanList[j]['assistedPinEncrypted']}】助力`)
           await helpFriendTuan($.tuanList[j])
           if(!$.canHelp) break
