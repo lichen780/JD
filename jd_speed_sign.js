@@ -61,7 +61,7 @@ const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
         continue
       }
       await jdGlobal()
-      await $.wait(2*1000)
+      await $.wait(5*1000)
     }
   }
 })()
@@ -82,8 +82,8 @@ async function jdGlobal() {
 
     // await signInit()
     // await sign()
-    await invite()
-    await invite2()
+    //await invite()
+    //await invite2()
     $.score = 0
     $.total = 0
     await taskList()
