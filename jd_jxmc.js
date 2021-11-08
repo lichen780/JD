@@ -735,6 +735,9 @@ function dealReturn(type, data) {
           console.log(`助力成功`);
         } else if (data.data.result === 1) {
           console.log(`不能助力自己`);
+        } else if (data.data.result === 3) {
+          console.log(`该好友助力已满`);
+          $.delcode = true;
         } else if (data.data.result === 4) {
           console.log(`助力次数已用完`);
           $.canHelp = false;
@@ -907,7 +910,7 @@ function shareCodesFormat() {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `https://transfer1212.nz.lu/jxmc`, timeout: 30 * 1000}, (err, resp, data) => {
+    $.get({url: `https://transfer.nz.lu/jxmc`, timeout: 30 * 1000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
@@ -930,7 +933,7 @@ function readShareCode() {
 }
 function uploadShareCode(code) {
   return new Promise(async resolve => {
-    $.post({url: `https://transfer1221.nz.lu/upload/jxmc?code=${code}&ptpin=${encodeURIComponent(encodeURIComponent($.UserName))}`, timeout: 30 * 1000}, (err, resp, data) => {
+    $.post({url: `https://transfer.nz.lu/upload/jxmc?code=${code}&ptpin=${encodeURIComponent(encodeURIComponent($.UserName))}`, timeout: 30 * 1000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(JSON.stringify(err))
