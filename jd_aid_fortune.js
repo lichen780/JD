@@ -5,7 +5,7 @@ cron 30 9 * * *
 30 9 * * * jd_aid_fortune.js, tag=京东资产变动通知, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 let common = require("./function/common");
-let $ = new Env('京喜财富岛助力');
+let $ = new common.env('京喜财富岛助力');
 let min = 3,
     help = $.config[$.filename(__filename)] || Math.min(min, $.config.JdMain) || min;
 $.setOptions({
