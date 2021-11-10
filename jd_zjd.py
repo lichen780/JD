@@ -8,7 +8,7 @@ Date: 2021/6/25 下午9:16
 TG交流 https://t.me/topstyle996
 TG频道 https://t.me/TopStyle2021
 updateTime: 2021.7.24 14:22
-建议cron: 30 1 * * *  python3 jd_qjd.py
+cron: 15 0 * * *
 new Env('赚京豆');
 '''
 # print("赚京豆-瓜分10亿京豆自动助力--活动已结束\nTG交流 https://t.me/topstyle996\nTG频道 https://t.me/TopStyle2021")
