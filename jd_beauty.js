@@ -3,6 +3,7 @@
 cron 1 7,19 * * * jd_beauty.js
  */
 const $ = new Env('美丽研究院');
+process.env.JD_USER_AGENT="jdapp;android;10.2.2;7.1.2;5333667353233313-7363033626931323;model/PCRT00;addressid/0;aid/53f75231760cb912;oaid/;osVer/25;appBuild/91077;partner/yycl018;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 7.1.2; PCRT00 Build/N2G48H; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36"
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
