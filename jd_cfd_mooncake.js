@@ -201,7 +201,7 @@ async function composePearlState(type) {
                 console.log(`当前已合成${data.dwCurProgress}颗月饼，总计获得${data.ddwVirHb / 100}元红包`)
                 if (data.strDT) {
                   // let num = Math.ceil(Math.random() * 12 + 12)
-                  let num = data.PearlList.length
+                  let num = 5
                   let div = Math.ceil(Math.random() * 4 + 2)
                   console.log(`合成月饼：模拟操作${num}次`)
                   for (let v = 0; v < num; v++) {
