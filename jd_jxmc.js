@@ -418,7 +418,7 @@ async function doMotion(petidList){
     //割草
     console.log(`\n开始进行割草`);
     let runFlag = true;
-    for (let i = 0; i < 20 && runFlag; i++) {
+    for (let i = 0; i < 10 && runFlag; i++) {
         $.mowingInfo = {};
         console.log(`开始第${i + 1}次割草`);
         let mowingInfo = await takeRequest(`jxmc`,`operservice/Action`,`&type=2`,'activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp%2Ctype',true);
@@ -442,7 +442,7 @@ async function doMotion(petidList){
     //横扫鸡腿
     runFlag = true;
     console.log(`\n开始进行横扫鸡腿`);
-    for (let i = 0; i < 20 && runFlag; i++) {
+    for (let i = 0; i < 10 && runFlag; i++) {
         console.log(`开始第${i + 1}次横扫鸡腿`);
         let sar = Math.floor((Math.random() * petidList.length));
         let jumoInfo = await takeRequest(`jxmc`,`operservice/Action`,`&type=1&petid=${petidList[sar]}`,'activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cpetid%2Cphoneid%2Csceneid%2Ctimestamp%2Ctype',true);
