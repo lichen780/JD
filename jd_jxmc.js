@@ -65,8 +65,8 @@ if ($.isNode()) {
         }
         await $.wait(2000);
     }
-    if(new Date().getHours() !== 9 && new Date().getHours() !== 11){
-        console.log('\n脚本早上9点到10点直接执行，才会执行账号内互助');
+    if(new Date().getHours() !== 10 && new Date().getHours() !== 17){
+        console.log('\n脚本早上10点到17点直接执行，才会执行账号内互助');
         return ;
     }
     console.log('\n##################开始账号内互助#################\n');
