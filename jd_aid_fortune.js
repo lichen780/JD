@@ -1,8 +1,8 @@
 /*
-cron 30 9 * * *
+cron 30 1 * * *
 [task_local]
 #京喜财富岛助力
-30 9 * * * jd_aid_fortune.js, tag=京东资产变动通知, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+30 1 * * * jd_aid_fortune.js, tag=京东资产变动通知, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 let common = require("./function/common");
 let $ = new common.env('京喜财富岛助力');
