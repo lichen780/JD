@@ -8,17 +8,17 @@ Last Modified time: 2021-7-3 17:58:02
 ============Quantumultx===============
 [task_local]
 #赚京豆
-10 1,5 * * * jd_syj.js, tag=赚京豆, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true
+10 0,7,23 * * * jd_syj.js, tag=赚京豆, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "10 1,5 * * *" script-path=jd_syj.js, tag=赚京豆
+cron "10 0,7,23 * * *" script-path=jd_syj.js, tag=赚京豆
 
 ===============Surge=================
-赚京豆 = type=cron,cronexp="10 1,5 * * *",wake-system=1,timeout=3600,script-path=jd_syj.js
+赚京豆 = type=cron,cronexp="10 0,7,23 * * *",wake-system=1,timeout=3600,script-path=jd_syj.js
 
 ============小火箭=========
-赚京豆 = type=cron,script-path=jd_syj.js, cronexpr="10 1,5 * * *", timeout=3600, enable=true
+赚京豆 = type=cron,script-path=jd_syj.js, cronexpr="10 0,7,23 * * *", timeout=3600, enable=true
  */
 const $ = new Env('赚京豆');
 /*let sc = require("./share_code.js")*/
@@ -647,7 +647,10 @@ function helpFriendTuan(body) {
                             } else if (data.resultCode === '9000000') {
                                 console.log('助力结果：活动火爆，跳出\n');
                                 $.canHelp = false
-                            } else console.log(`助力结果：未知错误\n${JSON.stringify(data)}\n\n`)
+                            } else {
+                                console.log(`助力结果：未知错误\n${JSON.stringify(data)}\n\n`)
+                                $.canHelp = false
+                            }
                         }
                     }
                 }
@@ -772,7 +775,7 @@ function getAuthorShareCode(url) {
     })
 }
 async function getRandomCode() {
-    await $.http.get({ url: `http://go.chiang78.fun/read/zuan/${randomCount}`, timeout: 10000 }).then(async(resp) => {
+    await $.http.get({ url: `http://go.chiang.fun/read/zuan/${randomCount}`, timeout: 10000 }).then(async(resp) => {
         if (resp.statusCode === 200) {
             try {
                 let { body } = resp;
