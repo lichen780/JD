@@ -13,6 +13,8 @@
 const $ = new Env('惊喜牧场内部互助');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+process.env.JX_USER_AGENT="jdpingou;android;5.11.0;7.1.2;53f75231760cb912;network/wifi;model/PCRT00;appBuild/19246;partner/tencent02;;session/2;aid/53f75231760cb912;oaid/;pap/JA2019_3111789;brand/;eu/5333667353233313;fv/7363033626931323;Mozilla/5.0 (Linux; Android 7.1.2; PCRT00 Build/N2G48H; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36"
+
 //惊喜APP的UA。领取助力任务奖励需要惊喜APP的UA,环境变量：JX_USER_AGENT，有能力的可以填上自己的UA
 const JXUserAgent =  $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_USER_AGENT : ``):``;
 $.inviteCodeList = [];
@@ -60,7 +62,7 @@ let token ='';
     await pasture();
     await $.wait(2000);
   }
-  if (flag_hb) {
+  if (process.env.JXMC_RP != 'false' && flag_hb) {
   console.log('\n##################开始账号内互助(红包)#################\n');
   await getShareCode('jxmc_hb.json')
   $.inviteCodeList_hb = [...($.inviteCodeList_hb || []), ...($.shareCode || [])]
@@ -547,7 +549,7 @@ async function requestAlgo() {
       "expandParams": ""
     })
   }
-  new Promise(async resolve => {
+  return new Promise(async resolve => {
     $.post(options, (err, resp, data) => {
       try {
         if (err) {
