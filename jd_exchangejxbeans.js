@@ -1,9 +1,9 @@
-
+//
 //过期京豆兑换为喜豆
-//cron 33 20 */2 * * jd_exchangejxbeans.js
+// cron 33 20 */2 * * jd_exchangejxbeans.js
+//TG频道：https://t.me/sheeplost
 
 const $ = new Env('京豆兑换为喜豆');
-process.env.exjxbeans=true
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -49,6 +49,7 @@ if ($.isNode()) {
                 continue
             }
             await domain();
+			await $.wait(3000);
         }
     }
     if (message !== "") {
