@@ -20,7 +20,7 @@ JoyJd任务脚本 = type=cron,script-path=https://raw.githubusercontent.com/King
 
 
 */
-const $ = new Env('JoyJd任务脚本');
+const $ = new Env('会员开卡赢京豆');
 const Faker=require('./sign_graphics_validate.js') 
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -37,6 +37,8 @@ if ($.isNode()) {
 }
 message = ""
 !(async () => {
+	console.log('入口：https://prodev.m.jd.com/mall/active/3z1Vesrhx3GCCcBn2HgbFR4Jq68o/index.html')
+	console.log('开一张卡获得10豆')
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
       "open-url": "https://bean.m.jd.com/"
@@ -76,9 +78,9 @@ async function run() {
       return
     }
     let config = [
-      {configCode:'8277ae337e5c4ebbbad92bbf9bf1bdee',configName:'我爱520-1'},
+      {configCode:'469f588bbf0f45e1bf06c87c76df9db8',configName:'我爱520-1'},
        //   {configCode:'761d289b16d74713bf6cee8462ca0e76',configName:'我爱520-2'},
-      //      {configCode:'b3cc4f6e5e924c3d82b10404f91740ce',configName:'我爱520-3'},
+        //    {configCode:'3d83678471e74b84940b99d16d8848b5',configName:'我爱520-3'},
       //{configCode:'ce04c87546ea40cc8f601e85f2dda2a9',configName:'秋新资任务组件 组1'},
     ]
     for(let i in config){
