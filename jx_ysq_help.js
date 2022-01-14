@@ -10,7 +10,7 @@
 
 
 
-// cron 30 14 * * *
+// cron 30 14 * * * jx_ysq_help.js
 //created by 奈何桥头小鬼
 //脚本仅限个人学习使用，禁止传播
 const $ = new Env('惊喜压岁钱');
