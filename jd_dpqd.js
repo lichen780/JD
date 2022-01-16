@@ -3,14 +3,14 @@
 ============Quantumultx===============
 [task_local]
 #店铺签到
-15 15 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_shop_sign.js, tag=店铺签到, enabled=true
+15 15 * * ** * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_shop_sign.js, tag=店铺签到, enabled=true
 ===========Loon============
 [Script]
-cron "15 15 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_shop_sign.js,tag=店铺签到
+cron "15 15 * * ** * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_shop_sign.js,tag=店铺签到
 ============Surge=============
-店铺签到 = type=cron,cronexp="15 15 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_shop_sign.js
+店铺签到 = type=cron,cronexp="15 15 * * ** * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_shop_sign.js
 ===========小火箭========
-店铺签到 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_shop_sign.jss, cronexpr="15 15 * * *", timeout=3600, enable=true
+店铺签到 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_shop_sign.jss, cronexpr="15 15 * * ** * *", timeout=3600, enable=true
 */
 const $ = new Env('店铺签到');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -25,22 +25,22 @@ let vender=''
 let num=0
 let shopname=''
 const token = [
-  "2B5C0F65AAB570D1736C8F24D1260D78",
+  "C22CEFD33E8331E6859BEC93C2BDF537",
   "F932E5DE653968BB1D92A2DFFD5318C7",
   "C4FF5A919CEE68F9669A32950697694C",
-  "39415200CB5E286A4DB604A54C901A13",
-  "E3EBFF80E029A1E1C13C8472BE23B822",
-  "F5E2E3856C6FF1869CCE53153D237112",
+  "CF1BC3B231F11B3D89B91796944A7BA5",
+  "6AC2C359FD6F8676976E8D355F777E1D",
+  "5839BF44D9EE68B28A2B9EF7E55E7DC9",
   "7A64973CD1A0873108CB2E4740A86D7D",
-  "68EA947A0B9AF707FF8FF1C0661998B4",
+  "621A2C5B99EC5DDAD2C30EFACC5CE2E0",
   "45DBA1666FC56F3040F2F68396F1CDCE",
-  "237DB8682E64A21BF18833A10E246162",
+  "91B152F4FE6110D612C16DFD5035B3FB",
   "098FD50396245FA00EA629B20A533E3E",
-  "DFB0150982F11A1EFB81A5B1399B7BD1",
+  "651F433A62C413D64D446945E64ED013",
   "F12032C7804D496FC82CCCBEDE205CA0",
   "755A1AA058A02D18CCB4D239E35FCB5B",
-  "9A2F9AFF0153C3D1DDD5C9516C468F52",
-  "2AEC5E975C792B413E569A4416C8F79D",
+  "4CA02475CEFE1F2C7D704C47636A0F1E",
+  "91B152F4FE6110D612C16DFD5035B3FB",
   "88C72E9A4F342606C7C98C601CCB3196",
   "020702C2C96800D57EAB2FA017314A42",
   "329C618CD7B700B350C8CC8054B8622E",
