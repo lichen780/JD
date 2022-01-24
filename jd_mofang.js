@@ -9,17 +9,17 @@ BY：搞鸡玩家
 ============Quantumultx===============
 [task_local]
 #京东小魔方
-31 3,14 * * * jd_xmf.js, tag=京东小魔方, img-url=, enabled=true
+31 9 * * * jd_xmf.js, tag=京东小魔方, img-url=, enabled=true
 
 ================Loon==============
 [Script]
-cron "31 3,14 * * *" script-path=jd_xmf.js, tag=京东小魔方
+cron "31 9 * * *" script-path=jd_xmf.js, tag=京东小魔方
 
 ===============Surge=================
-京东小魔方 = type=cron,cronexp="31 3,14 * * *",wake-system=1,timeout=3600,script-path=jd_xmf.js
+京东小魔方 = type=cron,cronexp="31 9 * * *",wake-system=1,timeout=3600,script-path=jd_xmf.js
 
 ============小火箭=========
-京东小魔方 = type=cron,script-path=jd_xmf.js, cronexpr="31 3,14 * * *", timeout=3600, enable=true
+京东小魔方 = type=cron,script-path=jd_xmf.js, cronexpr="31 9 * * *", timeout=3600, enable=true
  */
 const $ = new Env('京东小魔方');
 const notify = $.isNode() ? require('./sendNotify') : '';
