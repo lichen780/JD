@@ -17,7 +17,7 @@ export JD_TRY_APPLYINTERVAL="5000" #商品试用之间和获取商品之间的�
 export JD_TRY_APPLYNUMFILTER="100000" #过滤大于设定值的已申请人数
 export JD_TRY_MINSUPPLYNUM="1" #最小提供数量
 export JD_TRY_SENDNUM="10" #每隔多少账号发送一次通知，不需要可以不用设置
-export JD_TRY_UNIFIED="false" 默认采用不同试用组
+export JD_TRY_UNIFIED="true" 默认采用不同试用组
 cron "4 18 * * *" jd_try.js, tag:京东试用
 
  */
@@ -29,8 +29,8 @@ process.env.JD_TRY_MAXLENGTH="50"
 process.env.JD_TRY_APPLYINTERVAL="5000" 
 process.env.JD_TRY_APPLYNUMFILTER="100000" 
 process.env.JD_TRY_MINSUPPLYNUM="1" 
-process.env.JD_TRY_SENDNUM="10" 
-process.env.JD_TRY_UNIFIED="false" */
+process.env.JD_TRY_SENDNUM="10" */
+process.env.JD_TRY_UNIFIED="true" 
 const URL = 'https://api.m.jd.com/client.action'
 let trialActivityIdList = []
 let trialActivityTitleList = []
