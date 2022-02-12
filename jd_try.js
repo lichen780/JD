@@ -22,7 +22,7 @@ cron "4 17 * * *" jd_try.js, tag:京东试用
 
  */
 const $ = new Env('京东试用')
-/*process.env.JD_TRY="true"
+process.env.JD_TRY="true"/*
 process.env.JD_TRY_PLOG="true" 
 process.env.JD_TRY_PASSZC="true" 
 process.env.JD_TRY_MAXLENGTH="50" 
