@@ -1,6 +1,6 @@
 //
 //过期京豆兑换为喜豆
-//cron 33 20 */2 * * jd_exchangejxbeans.js
+//cron 33 20 * * * jd_exchangejxbeans.js
 
 const $ = new Env('京豆兑换为喜豆');
 const notify = $.isNode() ? require('./sendNotify') : '';
