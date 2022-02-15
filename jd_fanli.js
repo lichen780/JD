@@ -19,7 +19,7 @@ cron "11 2 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/mai
 京东饭粒 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fanli.js, cronexpr="11 2 * * *", timeout=3600, enable=true
 */
 
-const $ = new Env('搞基大神-饭粒');
+const $ = new Env('京东饭粒');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [], cookie = '', message = '',personMessage='';
@@ -282,6 +282,8 @@ function getTaskList(ck) {
                         // console.log(data,"活动列表")
                         if(data.content){
                             $.taskList=data.content
+                            $.taskList.sort(function(a,b){
+                                return b.rewardBeans-a.rewardBeans})
                         }
                         else{
                             console.log("未获取到活动列表，请检查活动")
