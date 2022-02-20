@@ -13,7 +13,7 @@ CryptoScripts()
 $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
 let cookiesArr = [], cookie = '';
 
-const validatorCount = process.env.JDJR_validator_Count ? process.env.JDJR_validator_Count : 100
+const validatorCount = process.env.JDJR_validator_Count ? process.env.JDJR_validator_Count : 20
 const PNG = require('png-js');
 const https = require('https');
 const stream = require('stream');
