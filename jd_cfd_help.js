@@ -38,9 +38,9 @@ $.result = [];
 $.shareCodes = [];
 let cookiesArr = [], cookie = '', token = '';
 let UA, UAInfo = {};
-let nowTimes;
 const randomCount = $.isNode() ? 20 : 3;
 $.appId = "92a36";
+let lnrun = 0;
 function oc(fn, defaultVal) {//optioanl chaining
   try {
     return fn()
@@ -90,15 +90,22 @@ if ($.isNode()) {
       $.allTask = []
       $.info = {}
       token = await getJxToken()
-      await cfd();
-      await $.wait(3000);
+      lnrun++;
+	  await cfd();
+	  await $.wait(2000);
+      if (lnrun == 10) {
+              console.log(`\n【访问接口次数达到10次，休息半分钟.....】\n`);
+              await $.wait(30 * 1000);
+              lnrun = 0;
+			}
     }
   }
-  let res = await getAuthorShareCode('https://gitee.com/KingRan3223521/JD-Scripts/raw/master/shareCodes/cfd.json')
+  let res = await getAuthorShareCode('https://gitee.com/KingRan521/JD-Scripts/raw/master/shareCodes/cfd.json')
   $.strMyShareIds = [...(res || [])]
   await shareCodesFormat()
   for (let i = 0; i < cookiesArr.length; i++) {
-    cookie = cookiesArr[i];
+    lnrun++;
+	cookie = cookiesArr[i];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
     $.canHelp = true
     UA = UAInfo[$.UserName]
@@ -107,7 +114,7 @@ if ($.isNode()) {
       for (let j = 0; j < $.newShareCodes.length && $.canHelp; j++) {
         console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
         $.delcode = false
-        await helpByStage($.newShareCodes[j])
+		await helpByStage($.newShareCodes[j])
         await $.wait(2000)
         if ($.delcode) {
           $.newShareCodes.splice(j, 1)
@@ -118,6 +125,11 @@ if ($.isNode()) {
     } else {
       break
     }
+	if (lnrun == 5) {
+        console.log(`\n【访问接口次数达到5次，休息半分钟.....】\n`);
+        await $.wait(30 * 1000);
+        lnrun = 0;
+	}
   }
   await showMsg();
 })()
@@ -126,7 +138,6 @@ if ($.isNode()) {
 
 async function cfd() {
   try {
-    nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
     let beginInfo = await getUserInfo();
     if (beginInfo.LeadInfo.dwLeadType === 2) {
       console.log(`还未开通活动，尝试初始化`)
@@ -690,6 +701,7 @@ async function getActTask(type = true) {
             for (let key of Object.keys(data.Data.TaskList)) {
               let vo = data.Data.TaskList[key]
               if ([0, 1, 2].includes(vo.dwOrderId) && (vo.dwCompleteNum !== vo.dwTargetNum) && vo.dwTargetNum < 10) {
+                if (vo.strTaskName === "升级1个建筑") continue
                 console.log(`开始【🐮牛牛任务】${vo.strTaskName}`)
                 for (let i = vo.dwCompleteNum; i < vo.dwTargetNum; i++) {
                   console.log(`【🐮牛牛任务】${vo.strTaskName} 进度：${i + 1}/${vo.dwTargetNum}`)
@@ -833,7 +845,7 @@ async function getBuildInfo(body, buildList, type = true) {
             console.log(`【${buildNmae}】升级需要${data.ddwNextLvlCostCoin}金币，保留升级需要的3倍${data.ddwNextLvlCostCoin * 3}金币，当前拥有${$.info.ddwCoinBalance}金币`)
             if(data.dwCanLvlUp > 0 && $.info.ddwCoinBalance >= (data.ddwNextLvlCostCoin * 3)) {
               console.log(`【${buildNmae}】满足升级条件，开始升级`)
-              const body = `ddwCostCoin=${data.ddwNextLvlCostCoin}&strBuildIndex=${data.strBuildIndex}`
+              const body = `strBuildIndex=${data.strBuildIndex}&ddwCostCoin=${data.ddwNextLvlCostCoin}`
               await $.wait(3000)
               let buildLvlUpRes = await buildLvlUp(body)
               if (buildLvlUpRes.iRet === 0) {
@@ -982,11 +994,28 @@ function getAuthorShareCode(url) {
     resolve();
   })
 }
-
+function setMark() {
+  return new Promise(resolve => {
+    $.get(taskUrl("user/SetMark", `strMark=daily_task_win&strValue=1&dwType=1`), (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`);
+          console.log(`${$.name} SetMark API请求失败，请检查网路重试`);
+        } else {
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
+        }
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally{
+        resolve();
+      }
+    })
+  })
+}
 // 获取用户信息
 function getUserInfo(showInvite = true) {
   return new Promise(async (resolve) => {
-    $.get(taskUrl(`user/QueryUserInfo`, `ddwTaskId=&strShareId=&strMarkList=${encodeURIComponent('guider_step,collect_coin_auth,guider_medal,guider_over_flag,build_food_full,build_sea_full,build_shop_full,build_fun_full,medal_guider_show,guide_guider_show,guide_receive_vistor,daily_task,guider_daily_task')}&strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`), async (err, resp, data) => {
+    $.get(taskUrl(`user/QueryUserInfo`, `ddwTaskId=&strShareId=&strMarkList=${encodeURIComponent('guider_step,collect_coin_auth,guider_medal,guider_over_flag,build_food_full,build_sea_full,build_shop_full,build_fun_full,medal_guider_show,guide_guider_show,guide_receive_vistor,daily_task,guider_daily_task,cfd_has_show_selef_point,choose_goods_has_show,daily_task_win,new_user_task_win,guider_new_user_task,guider_daily_task_icon,guider_nn_task_icon,tool_layer,new_ask_friend_m')}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}&strPgUUNum=${token['farm_jstoken']}&strVersion=1.0.1&dwIsReJoin=1`), async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -1004,7 +1033,8 @@ function getUserInfo(showInvite = true) {
             LeadInfo = {},
             StoryInfo = {},
             Business = {},
-            XbStatus = {}
+            XbStatus = {},
+            MarkList = {}
           } = data;
           if (showInvite) {
             console.log(`获取用户信息：${sErrMsg}\n${$.showLog ? data : ""}`);
@@ -1024,7 +1054,8 @@ function getUserInfo(showInvite = true) {
             dwLandLvl,
             LeadInfo,
             StoryInfo,
-            XbStatus
+            XbStatus,
+            MarkList
           };
           resolve({
             buildInfo,
@@ -1033,7 +1064,8 @@ function getUserInfo(showInvite = true) {
             strMyShareId,
             LeadInfo,
             StoryInfo,
-            XbStatus
+            XbStatus,
+            MarkList
           });
         }
       } catch (e) {
@@ -1444,7 +1476,7 @@ function shareCodesFormat() {
     } else {
       $.newShareCodes = [...new Set([...$.shareCodes, ...$.strMyShareIds])];
     }
-    console.log(`您将要助力的好友${JSON.stringify($.newShareCodes)}`)
+    console.log(`\n\n您将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
 }
@@ -1545,7 +1577,7 @@ async function requestAlgo() {
       'Accept-Language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7'
     },
     'body': JSON.stringify({
-      "version": "3.0",
+      "version": "3.1",
       "fp": $.fingerprint,
       "appId": $.appId.toString(),
       "timestamp": Date.now(),
