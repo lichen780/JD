@@ -26,7 +26,6 @@ cron "20 16 * * *" script-path=jd_joypark_joy.js,tag=汪汪乐园养joy
 汪汪乐园养joy = type=cron,script-path=jd_joypark_joy.js, cronexpr="20 16 * * *", timeout=3600, enable=true
 */
 const $ = new Env('汪汪乐园养joy');
-process.env.HELP_JOYPARK='false'
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 //IOS等用户直接用NobyDa的jd cookie
@@ -89,7 +88,7 @@ message = ""
       if ($.isNode()) {
         if (process.env.HELP_JOYPARK && process.env.HELP_JOYPARK == "false") {
         } else {
-          await getShareCode()
+          /*await getShareCode()
           if ($.kgw_invitePin && $.kgw_invitePin.length) {
             $.log("开始帮作者助力开工位\n");
             $.kgw_invitePin = [...($.kgw_invitePin || [])][Math.floor((Math.random() * $.kgw_invitePin.length))];
@@ -104,7 +103,7 @@ message = ""
               $.log("开工位失败！\n");
               console.log(`${JSON.stringify(resp)}`)
             }
-          }
+          }*/
         }
       }
       //下地后还有有钱买Joy并且买了Joy
@@ -117,8 +116,12 @@ message = ""
       //清理工位
       await doJoyMoveDownAll($.workJoyInfoList)
       //从低合到高
+	  try{	
       await doJoyMergeAll($.activityJoyList)
       await getGameMyPrize()
+	  } catch (e) {
+        $.logErr(e)
+      }
 	  await $.wait(1500)
     }
   }
@@ -141,8 +144,8 @@ async function getJoyBaseInfo(taskId = '', inviteType = '', inviterPin = '', pri
             $.log(`等级: ${data.data.level}|金币: ${data.data.joyCoin}`);
             if (data.data.level >= 30 && $.isNode()) {
               await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】${$.nickName || $.UserName}\n当前等级: ${data.data.level}\n已达到单次最高等级奖励\n请前往京东极速版APP查看使用优惠券\n活动入口：京东极速版APP->我的->汪汪乐园`);
-              $.log(`\n开始解锁新场景...\n`);
-              await doJoyRestart()
+              //$.log(`\n开始解锁新场景...\n`);
+              //await doJoyRestart()
             }
           }
           $.joyBaseInfo = data.data
@@ -174,8 +177,8 @@ function getJoyList(printLog = false) {
               $.log(`id:${data.data.activityJoyList[i].id}|name: ${data.data.activityJoyList[i].name}|level: ${data.data.activityJoyList[i].level}`);
               if (data.data.activityJoyList[i].level >= 30 && $.isNode()) {
                 await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName}`, `【京东账号${$.index}】${$.nickName || $.UserName}\n当前等级: ${data.data.level}\n已达到单次最高等级奖励\n请尽快前往活动查看领取\n活动入口：京东极速版APP->汪汪乐园\n`);
-                $.log(`\n开始解锁新场景...\n`);
-                await doJoyRestart()
+                //$.log(`\n开始解锁新场景...\n`);
+                //await doJoyRestart()
               }
             }
             $.log("\n在铲土的joy⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️")
@@ -285,13 +288,25 @@ async function doJoyMoveDownAll(workJoyInfoList) {
 async function doJoyMergeAll(activityJoyList) {
   let minLevel = Math.min.apply(Math, activityJoyList.map(o => o.level))
   let joyMinLevelArr = activityJoyList.filter(row => row.level === minLevel);
-  let joyBaseInfo = await getJoyBaseInfo()
+  let joyBaseInfo = await getJoyBaseInfo();
+  await $.wait(2000)
+  if(!joyBaseInfo.fastBuyLevel){
+	  await $.wait(5000)
+	  joyBaseInfo = await getJoyBaseInfo();
+  }
+  if(!joyBaseInfo.fastBuyLevel){
+	   $.log(`出错，下地后跳出......`)
+	  await doJoyMoveUpAll($.activityJoyList, $.workJoyInfoList);	  
+	  return false;
+  }
   let fastBuyLevel = joyBaseInfo.fastBuyLevel
   if (joyMinLevelArr.length >= 2) {
     $.log(`开始合成 ${minLevel} ${joyMinLevelArr[0].id} <=> ${joyMinLevelArr[1].id} 【限流严重，5秒后合成！如失败会重试】`);
     await $.wait(5000)
     await doJoyMerge(joyMinLevelArr[0].id, joyMinLevelArr[1].id);
 	    if (hotFlag) {
+	  joyBaseInfo = await getJoyBaseInfo();
+	  await doJoyMoveUpAll($.activityJoyList, $.workJoyInfoList);
       return false;
     }
     await getJoyList()
@@ -363,7 +378,7 @@ function doJoyMerge(joyId1, joyId2) {
           } 
           if (failed_cnt == 5){
             console.log('失败次数多，避免死循环，跳出！')
-            hot_flag = true
+            hotFlag = true
           }
         }
       } catch (e) {
@@ -513,7 +528,7 @@ function apCashWithDraw(id, poolBaseId, prizeGroupId, prizeBaseId) {
 function getShareCode() {
   return new Promise(resolve => {
       $.get({
-          url: "https://raw.githubusercontent.com/Kin456gRan/JD-Scripts/main/shareCodes/joypark.json",
+          url: "https://cdn.jsdelivr.net/gh/KingRan/shareCodes@master/joypark.json",
           headers: {
               "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
           }
