@@ -21,7 +21,7 @@ cron "2 0-23/4 * * *" script-path=jd_cash.js,tag=签到领现金
 签到领现金 = type=cron,script-path=jd_cash.js, cronexpr="2 0-23/4 * * *", timeout=3600, enable=true
  */
 const $ = new Env('签到领现金_Panda');
-process.env.PandaToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ0NjY4ODk0NiwiaWF0IjoxNjQ4OTgzOTQzLCJleHAiOjE2ODA1MTk5NDN9.i5RJAVtHcJJYrQa7S1aj14s_FZkblQ7OpiIxTbqfJIQ';
+process.env.PandaToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ0NjY4ODk0NiwiaWF0IjoxNjQ5ODMxNTgyLCJleHAiOjE2ODEzNjc1ODJ9.rD5WHmz_QIK3Zymj8v362cLL1HKq-2nornea9q__QCI';
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
