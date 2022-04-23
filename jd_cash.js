@@ -3,25 +3,25 @@
 可互助，助力码每日不变，只变日期
 活动入口：京东APP搜索领现金进入
 更新时间：2021-06-07
+PandaToken 请前往 https://t.me/pang_da_bot  获取Token
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
 #签到领现金
-2 0-23/4 * * * jd_cash.js, tag=签到领现金, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+11 1,20 * * * jd_cash.js, tag=签到领现金, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "2 0-23/4 * * *" script-path=jd_cash.js,tag=签到领现金
+cron "11 1,20 * * *" script-path=jd_cash.js,tag=签到领现金
 
 ===============Surge=================
-签到领现金 = type=cron,cronexp="2 0-23/4 * * *",wake-system=1,timeout=3600,script-path=jd_cash.js
+签到领现金 = type=cron,cronexp="11 1,20 * * *",wake-system=1,timeout=3600,script-path=jd_cash.js
 
 ============小火箭=========
-签到领现金 = type=cron,script-path=jd_cash.js, cronexpr="2 0-23/4 * * *", timeout=3600, enable=true
+签到领现金 = type=cron,script-path=jd_cash.js, cronexpr="11 1,20 * * *", timeout=3600, enable=true
  */
 const $ = new Env('签到领现金_Panda');
-process.env.PandaToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ0NjY4ODk0NiwiaWF0IjoxNjQ5ODMxNTgyLCJleHAiOjE2ODEzNjc1ODJ9.rD5WHmz_QIK3Zymj8v362cLL1HKq-2nornea9q__QCI';
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -42,7 +42,7 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let allMessage = '';
-let jdPandaToken = '';
+let jdPandaToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ0NjY4ODk0NiwiaWF0IjoxNjUwNjg0NzIzLCJleHAiOjE2ODIyMjA3MjN9.TofqJh_RLaHgwVrwdadl2Se6DV6RMMafPEiXacIqqQ0';
 jdPandaToken = $.isNode() ? (process.env.PandaToken ? process.env.PandaToken : `${jdPandaToken}`) : ($.getdata('PandaToken') ? $.getdata('PandaToken') : `${jdPandaToken}`);
 if (!jdPandaToken) {
     console.log('请填写Panda获取的Token,变量是PandaToken');
@@ -283,7 +283,7 @@ function getSignfromPanda(functionId, body) {
     }
     return new Promise((resolve) => {
         let url = {
-            url: "https://api.jds.codes/jd/sign",
+            url: "https://api.zhezhe.cf/jd/sign",
             body: JSON.stringify(data),
 		    followRedirect: false,
 		    headers: {
