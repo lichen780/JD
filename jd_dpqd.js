@@ -3,14 +3,14 @@
 ============Quantumultx===============
 [task_local]
 #店铺签到
-15 3 * * * https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js, tag=店铺签到, enabled=true
+15 2,14 * * * https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js, tag=店铺签到, enabled=true
 ===========Loon============
 [Script]
-cron "15 3 * * *" script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js,tag=店铺签到
+cron "15 2,14 * * *" script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js,tag=店铺签到
 ============Surge=============
-店铺签到 = type=cron,cronexp="15 3 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js
+店铺签到 = type=cron,cronexp="15 2,14 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js
 ===========小火箭========
-店铺签到 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.jss, cronexpr="15 3 * * *", timeout=3600, enable=true
+店铺签到 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.jss, cronexpr="15 2,14 * * *", timeout=3600, enable=true
 */
 const $ = new Env('店铺签到');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -25,20 +25,23 @@ let vender=''
 let num=0
 let shopname=''
 const token = [
-  "63BAE1657C5127A5BD97D2492C82DE86",
-  "B3E1665D2154B1CCF6FA036F53D28707",
-  "07D72B6BEC5DDC95E475D019FA89F39D",
-  "E20BD5091D8F70B4649D529A09183F04",
-  "4DAE4AF44B8031613282AA320BB58BB2",
-  "0D4C9DBC259BCE76D2F7CE53D3CC2A10",
-  "853D3C771755E51B67A61981E35A6F2C",
-  "3C40932565A6F6E69237E17773D907AA",
-  "CDDABF3428C94BFF4575B7C712F3E233",
-  "62F921549D1B7244101CCC5AFBC2E952",
-  "FE30AB00038CFFEF00DA9E9B8E932721",
-  "F0C24D7588D90922393B423C6623F31A",
+  "8C1D9B1D97AB75D1704609271FD48AD0",
+  "87DC11A01AE814025159ECE32F5EECBF",
+  "F6C427887883C4A567C69C0260606022",
+  "7127A3861F6478043B1BF112803B9A25",
+  "8622A6A8C1ECB4B2D45F07AE43397BFD",
+  "6A78B850246E31C35C135BC8A0FAF5ED",
+  "CACEC89AD3A20309748FEC03B0B0C50C",
   "D881655EDC90A9B4387ACFE495CA3F18",
-  "13B10B1585CB27FAA5BA9365277D80F6"
+  "A92870C9EB3853D7C2FF8E740FAA8BC1",
+  "ADFB1BB684350404A2CE4959D7D96A21",
+  "3AF4B68A4BB3BD09D371B766E6A1B721",
+  "273EC9E9CA27DFDD85478972A1A0ED6F",
+  "3D2F9CF0C806133D3C64949F06CD4A80",
+  "5EC0711D1CF81232DA1B32BE7E4D14FE",
+  "99B695DFEF69DD31BB78B58D61B9C6A2",
+  "EBC07F65183699ABACF313CA67B444E4",
+  "FA7F19CBE89D642BAC78D23F78110620"
 ]
 
 if ($.isNode()) {
