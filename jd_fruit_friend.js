@@ -10,16 +10,16 @@
 ==========================Quantumultx=========================
 [task_local]
 #jd免费水果
-10 19 * * * jd_fruit_friend.js, tag=东东农场好友删减奖励, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
+10 20 * * * jd_fruit_friend.js, tag=东东农场好友删减奖励, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
 =========================Loon=============================
 [Script]
-cron "10 19 * * *" script-path=jd_fruit_friend.js,tag=东东农场好友删减奖励
+cron "10 20 * * *" script-path=jd_fruit_friend.js,tag=东东农场好友删减奖励
 
 =========================Surge============================
-东东农场好友删减奖励 = type=cron,cronexp="10 19 * * *",wake-system=1,timeout=3600,script-path=jd_fruit_friend.js
+东东农场好友删减奖励 = type=cron,cronexp="10 20 * * *",wake-system=1,timeout=3600,script-path=jd_fruit_friend.js
 
 =========================小火箭===========================
-东东农场好友删减奖励 = type=cron,script-path=jd_fruit_friend.js, cronexpr="10 19 * * *", timeout=3600, enable=true
+东东农场好友删减奖励 = type=cron,script-path=jd_fruit_friend.js, cronexpr="10 20 * * *", timeout=3600, enable=true
 
 
 */

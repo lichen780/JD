@@ -46,7 +46,7 @@ if ($.isNode()) {
   if (process.env.PIGPETSHARECODE) {
     shareId = process.env.PIGPETSHARECODE
   } else{
-    let res = await getAuthorShareCode('https://gitee.com/KingRan222521/JD-Scripts/raw/master/shareCodes/pigPet.json')
+    let res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/KingRan/shareCodes@master/pigP1et.json')
     if (res){
       shareId = res[Math.floor((Math.random() * res.length))];
     }
@@ -73,7 +73,7 @@ if ($.isNode()) {
     }
   }
   console.log(`\n======开始大转盘助力======\n`);
-  $.helpId = await getAuthorShareCode('https://gitee.com/KingRan5333321/JD-Scripts/raw/master/shareCodes/pig.json');
+  $.helpId = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/KingRan/shareCode1s@master/pig.json');
   $.shareCodes = [...$.shareCodes, ...($.helpId || [])]
   for (let j = 0; j < cookiesArr.length; j++) {
     cookie = cookiesArr[j];

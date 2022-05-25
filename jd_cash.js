@@ -42,7 +42,7 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let allMessage = '';
-let jdPandaToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ0NjY4ODk0NiwiaWF0IjoxNjUyNzU4OTE0LCJleHAiOjE2ODQyOTQ5MTR9.k2GxU_YWsYxrjyq2qqYIBvYWoB4mhEdik7PgA4T8cDs';
+let jdPandaToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQ0NjY4ODk0NiwiaWF0IjoxNjUzMzg2MzI4LCJleHAiOjE2ODQ5MjIzMjh9.mfCrw9Ns7ZG7aIVH4MYI8B4tMkzE626xGWNgtuYqVdU';
 jdPandaToken = $.isNode() ? (process.env.PandaToken ? process.env.PandaToken : `${jdPandaToken}`) : ($.getdata('PandaToken') ? $.getdata('PandaToken') : `${jdPandaToken}`);
 if (!jdPandaToken) {
     console.log('请填写Panda获取的Token,变量是PandaToken');

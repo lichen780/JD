@@ -1,6 +1,6 @@
 /**
  惊喜牧场
- cron 23 4 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_jxmc.js
+ cron 55 5 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_jxmc.js
  */
 // prettier-ignore
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {
@@ -13,8 +13,6 @@
 const $ = new Env('惊喜牧场内部互助');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-process.env.JX_USER_AGENT="jdpingou;android;5.11.0;7.1.2;53f75231760cb912;network/wifi;model/PCRT00;appBuild/19246;partner/tencent02;;session/2;aid/53f75231760cb912;oaid/;pap/JA2019_3111789;brand/;eu/5333667353233313;fv/7363033626931323;Mozilla/5.0 (Linux; Android 7.1.2; PCRT00 Build/N2G48H; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36"
-
 //惊喜APP的UA。领取助力任务奖励需要惊喜APP的UA,环境变量：JX_USER_AGENT，有能力的可以填上自己的UA
 const JXUserAgent =  $.isNode() ? (process.env.JX_USER_AGENT ? process.env.JX_USER_AGENT : ``):``;
 $.inviteCodeList = [];

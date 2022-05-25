@@ -8,7 +8,7 @@ by:小手冰凉 tg:@chianPLA
 ===========================
 [task_local]
 #微信签到领现金
-16 5 * * * jd_cash_wx.js, tag=微信签到领现金, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+40 5 * * * jd_cash_wx.js, tag=微信签到领现金, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
  */
 
 const $ = new Env('微信签到领现金');

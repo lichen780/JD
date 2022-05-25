@@ -3,17 +3,17 @@
 
 [task_local]
 #玩一玩成就
-25 18 * * * jd_wyw.js, tag=玩一玩成就, img-url=https://raw.githubusercontent.com/tsukasa007/icon/master/jd_wyw.png, enabled=true
+30 13 * * * jd_wyw.js, tag=玩一玩成就, img-url=https://raw.githubusercontent.com/tsukasa007/icon/master/jd_wyw.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "25 18 * * *" script-path=jd_wyw.js,tag=玩一玩成就
+cron "30 13 * * *" script-path=jd_wyw.js,tag=玩一玩成就
 
 ===============Surge=================
-玩一玩成就 = type=cron,cronexp="25 18 * * *",wake-system=1,timeout=3600,script-path=jd_wyw.js
+玩一玩成就 = type=cron,cronexp="30 13 * * *",wake-system=1,timeout=3600,script-path=jd_wyw.js
 
 ============小火箭=========
-玩一玩成就 = type=cron,script-path=jd_wyw.js, cronexpr="25 18 * * *", timeout=3600, enable=true
+玩一玩成就 = type=cron,script-path=jd_wyw.js, cronexpr="30 13 * * *", timeout=3600, enable=true
 */
 const $ = new Env('玩一玩成就');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';

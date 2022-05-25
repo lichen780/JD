@@ -3,7 +3,7 @@
 活动入口：各处的签到汇总
 更新时间：2021-6-18
 
-cron 39 9 * * *  jd_bean_sign.js
+cron "39 9 * * *" script-path= jd_bean_sign.js,tag= 京东多合一签到
  */
 
 const $ = new Env('京东多合一签到');

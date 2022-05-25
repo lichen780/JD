@@ -3,14 +3,14 @@
 ============Quantumultx===============
 [task_local]
 #店铺签到
-15 3 * * * https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js, tag=店铺签到, enabled=true
+15 2,14 * * * https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js, tag=店铺签到, enabled=true
 ===========Loon============
 [Script]
-cron "15 3 * * *" script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js,tag=店铺签到
+cron "15 2,14 * * *" script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js,tag=店铺签到
 ============Surge=============
-店铺签到 = type=cron,cronexp="15 3 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js
+店铺签到 = type=cron,cronexp="15 2,14 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.js
 ===========小火箭========
-店铺签到 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.jss, cronexpr="15 3 * * *", timeout=3600, enable=true
+店铺签到 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/KR/main/jd_shop_sign.jss, cronexpr="15 2,14 * * *", timeout=3600, enable=true
 */
 const $ = new Env('店铺签到');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -25,6 +25,7 @@ let vender=''
 let num=0
 let shopname=''
 const token = [
+  "4BE1B58FE1360409A5967CAD1127B5A8",
   "34864F266AFC02DDB7EEAD5A2AF9B4F7",
   "87DC11A01AE814025159ECE32F5EECBF",
   "3BA9AEE39889419A46E8784C982C7280",
@@ -38,7 +39,7 @@ const token = [
   "3AF4B68A4BB3BD09D371B766E6A1B721",
   "273EC9E9CA27DFDD85478972A1A0ED6F",
   "A5BD60451DC9BCB10EB6009C18679D70",
-  "DB67ED9F116CFA3CBB75055C61ED3364",
+  "3B27B2B9E70249C339D66F27B7E133F0",
   "99B695DFEF69DD31BB78B58D61B9C6A2",
   "6CB820BAC6C0CD8D1F90C342F0EA1018",
   "ADF510FDA71E07151B8F8AD4964A5D90",
@@ -49,6 +50,8 @@ const token = [
   "0EED5C32E8002D6EF892D3995A0A9AA5",
   "D5A12069E47F17718EF7E7381444A5FE",
   "CFE4E21426A3E633238CBA33DEBE693E",
+  "501933E61B74CEE450856EDD10AAF7CB",
+  "9F64084BD36FE0EBCDE1EDC956656501",
   "7516691B34E89137D3C911BBF7D86ACD"
 ]
 

@@ -17,20 +17,12 @@ export JD_TRY_APPLYINTERVAL="5000" #商品试用之间和获取商品之间的�
 export JD_TRY_APPLYNUMFILTER="100000" #过滤大于设定值的已申请人数
 export JD_TRY_MINSUPPLYNUM="1" #最小提供数量
 export JD_TRY_SENDNUM="10" #每隔多少账号发送一次通知，不需要可以不用设置
-export JD_TRY_UNIFIED="true" 默认采用不同试用组
-cron "4 18 * * *" jd_try.js, tag:京东试用
+export JD_TRY_UNIFIED="false" 默认采用不同试用组
+cron "4 12 * * *" jd_try.js, tag:京东试用
 
  */
+ process.env.JD_TRY="true";
 const $ = new Env('京东试用')
-process.env.JD_TRY="true"/*
-process.env.JD_TRY_PLOG="true" 
-process.env.JD_TRY_PASSZC="true" 
-process.env.JD_TRY_MAXLENGTH="50" 
-process.env.JD_TRY_APPLYINTERVAL="5000" 
-process.env.JD_TRY_APPLYNUMFILTER="100000" 
-process.env.JD_TRY_MINSUPPLYNUM="1" 
-process.env.JD_TRY_SENDNUM="10" */
-process.env.JD_TRY_UNIFIED="true" 
 const URL = 'https://api.m.jd.com/client.action'
 let trialActivityIdList = []
 let trialActivityTitleList = []
@@ -135,7 +127,7 @@ let args_xh = {
      * 过滤大于设定值的已申请人数，例如下面设置的1000，A商品已经有1001人申请了，则A商品不会进行申请，会被跳过
      * 可设置环境变量：JD_TRY_APPLYNUMFILTER
      * */
-    applyNumFilter: process.env.JD_TRY_APPLYNUMFILTER * 1 || 25000,
+    applyNumFilter: process.env.JD_TRY_APPLYNUMFILTER * 1 || 100000,
     /*
      * 商品试用之间和获取商品之间的间隔, 单位：毫秒(1秒=1000毫秒)
      * 可设置环境变量：JD_TRY_APPLYINTERVAL
@@ -148,7 +140,7 @@ let args_xh = {
      * 例如是18件，将会进行第三次获取，直到过滤完毕后为20件才会停止，不建议设置太大
      * 可设置环境变量：JD_TRY_MAXLENGTH
      * */
-    maxLength: process.env.JD_TRY_MAXLENGTH * 1 || 30,
+    maxLength: process.env.JD_TRY_MAXLENGTH * 1 || 100,
     /*
      * 过滤种草官类试用，某些试用商品是专属官专属，考虑到部分账号不是种草官账号
      * 例如A商品是种草官专属试用商品，下面设置为true，而你又不是种草官账号，那A商品将不会被添加到待提交试用组
