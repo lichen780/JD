@@ -4,7 +4,7 @@
  * @Github: https://github.com/X1a0He/jd_scripts_fixed
  * 清空购物车，支持环境变量设置关键字，用@分隔，使用前请认真看对应注释
  * 由于不是用app来进行购物车删除，所以可能会出现部分购物车数据无法删除的问题，例如预购商品，属于正常
- cron 1 22 * * 6 jd_cleancart.js
+  cron 1 22 * * 6 jd_cleancart.js
  */
 const $ = new Env('清空购物车');
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -65,7 +65,7 @@ if ($.isNode()) {
                 $.isLogin = true;
                 $.nickName = '';
                 $.error = false;
-                await TotalBean();
+                //await TotalBean();
                 console.log(`****开始【京东账号${$.index}】${$.nickName || $.UserName}****`);
                 if (args_xh.except.includes($.UserName)) {
                     console.log(`跳过账号：${$.nickName || $.UserName}`)
@@ -86,7 +86,9 @@ if ($.isNode()) {
                     $.keywordsNum = 0
                     if ($.beforeRemove !== "0") {
                         await cartFilter_xh(venderCart);
+												$.retry = 0;
                         if (parseInt($.beforeRemove) !== $.keywordsNum) await removeCart();
+												if($.retry = 2) break;
                         else {
                             console.log('\n由于购物车内的商品均包含关键字，本次执行将不删除购物车数据')
                             break;
@@ -116,11 +118,7 @@ function getCart_xh() {
         }
         $.get(option, async (err, resp, data) => {
             try {
-                data = getSubstr(data, "window.cartData = ", "window._PFM_TIMING");
-                data = data.replace(' ;', '');
-                data = data.replace(/\s+/g,'');
-                data = JSON.parse(data);
-
+                data = JSON.parse(data.match(/window\.cartData = ([^;]*)/)[1])
                 $.areaId = data.areaId;   // locationId的传值
                 $.traceId = data.traceId; // traceid的传值
                 venderCart = data.cart.venderCart;
@@ -199,6 +197,7 @@ function removeCart() {
                     console.log('删除失败')
                     console.log(data.errMsg)
                     $.error = true;
+										$.retry++;
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -207,13 +206,6 @@ function removeCart() {
             }
         });
     })
-}
-
-function getSubstr(str, leftStr, rightStr) {
-    let left = str.indexOf(leftStr);
-    let right = str.indexOf(rightStr, left);
-    if (left < 0 || right < left) return '';
-    return str.substring(left + leftStr.length, right);
 }
 
 function TotalBean() {
