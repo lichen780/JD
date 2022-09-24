@@ -1,5 +1,6 @@
 #!/bin/bash
 # new Env('BBK-小魔方');
+# cron 31 13 * * * a_xiaomofang.sh
 # export JD_LOG_XYZ_TOKEN="从机器人获取的token"
 # export Proxy_Url="代理网址 例如：星空、熊猫 生成选择txt 一次一个"
 pwd
