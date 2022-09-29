@@ -110,7 +110,7 @@ if ($.isNode()) {
     await pasture();
     await $.wait(2000);
   }
-  $.res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/KingRan/shareCodes@master/jxmc.json')
+  $.res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/KingRan/shareCodes@master/jxmc1.json')
   await shareCodesFormat()
   for (let i = 0; i < cookiesArr.length; i++) {
     $.cookie = cookiesArr[i];
