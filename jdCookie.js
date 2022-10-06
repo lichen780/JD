@@ -139,3 +139,7 @@ let envName = process.env.ShareCodeEnvName
 if (nameChinese && nameConfig && envName) {
     SetShareCodesEnv(nameChinese, nameConfig, envName)
 } 
+
+
+// 获取到cookie后屏蔽 使其他脚本引用时 获取不到环境变量[JD_COOKIE]
+process.env.JD_COOKIE = ''
