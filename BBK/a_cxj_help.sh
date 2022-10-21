@@ -1,11 +1,9 @@
 #!/bin/bash
-# new Env('BBK-点点');
-# cron 31 8 * * * a_diandian.sh
+# new Env('BBK-穿行记助力任务');
 # export JD_LOG_XYZ_TOKEN="从机器人获取的token"
 # export Proxy_Url="代理网址 例如：星空、熊猫 生成选择txt 一次一个"
-# export DIANDIAN_DELAY="2" #等待几秒 默认0秒 可选参数,可以不填。
-# export DIANDIAN_PROXY="true" #黑IP自动使用代理 默认不用代理 可选参数,可以不填。
-# export DIANDAIN_USE_PROXY="true" #强制使用代理 默认不用代理 可选参数,可以不填。
+# export CXJ_HELP_PINS="jd_xxx&jd_xxx" # 指定pin助力，多个用英文&分割
+# 支持CXJ_HELP_PINS 或者 链接方式(`cxj_list.txt`存放需要助力的URL,一行一个)
 pwd
 _ftype=""
 get_arch=`arch`
@@ -31,7 +29,7 @@ else
     if [ -f "$PWD/BBK/$_ftype.bbk" ]; then
         echo "$PWD/BBK/$_ftype.bbk"
         eval "chmod +x ./BBK/$_ftype.bbk"
-        eval "./BBK/$_ftype.bbk -t diandian"
+        eval "./BBK/$_ftype.bbk -t cxj_help"
     else
         if [ ! -f "$PWD/$_ftype.bbk" ]; then
             echo "在$PWD/BBK目录、$PWD目录下均未找到文件$_ftype.bbk"
@@ -39,6 +37,6 @@ else
         fi
         echo "$PWD/$_ftype.bbk"
         eval "chmod +x $PWD/$_ftype.bbk"
-        eval "$PWD/$_ftype.bbk -t diandian"
+        eval "$PWD/$_ftype.bbk -t cxj_help"
     fi
 fi
