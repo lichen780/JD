@@ -3,6 +3,9 @@
 # export JD_LOG_XYZ_TOKEN="从机器人获取的token"
 # export Proxy_Url="代理网址 例如：星空、熊猫 生成选择txt 一次一个"
 # export CXJ_OPEN_CARD_TASK="true" # 默认不做开卡任务，要做开卡任务就设置
+# export CXJ_AUTO_PROMOTE="true" # 自动升级
+# export CXJ_TASK_BINGFA="true" # 启用并发
+# export CXJ_BINGFA_COUNT="5" # 5个并发数量，限制最多20个，默认4个
 pwd
 _ftype=""
 get_arch=`arch`

@@ -2,7 +2,8 @@
 # new Env('BBK-穿行记组队');
 # export JD_LOG_XYZ_TOKEN="从机器人获取的token"
 # export Proxy_Url="代理网址 例如：星空、熊猫 生成选择txt 一次一个"
-# export CXJ_GROUP_PINS="jd_xxx&jd_xxx"# 指定pin组队，多个用英文&分割
+# export CXJ_GROUP_PINS="jd_xxx&jd_xxx"# 指定pin组队车头，多个用英文&分割
+# export CXJ_GROUP_COUNT="30" # 每队多少人, 默认30人或者满员 可不填
 # 支持CXJ_GROUP_PINS 或者 链接方式(`cxj_group_list.txt`存放需要组队的URL,一行一个)
 pwd
 _ftype=""
