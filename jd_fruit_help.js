@@ -24,9 +24,9 @@ cron "20 8 * * *" script-path=jd_fruit_help.js,tag=东东农场内部互助
 export DO_TEN_WATER_AGAIN="" 默认再次浇水
 
 */
-if(process.env.HTTP_PROXY){
+if(process.env.HTTPPROXY){
 require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY=process.env.HTTP_PROXY;
+global.GLOBAL_AGENT.HTTP_PROXY=process.env.HTTPPROXY;
 }
 const $ = new Env('东东农场内部水滴互助');
 let cookiesArr = [],

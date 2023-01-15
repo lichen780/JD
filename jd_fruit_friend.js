@@ -23,9 +23,9 @@ cron "10 20 * * *" script-path=jd_fruit_friend.js,tag=东东农场好友删减�
 
 
 */
-if(process.env.HTTP_PROXY){
+if(process.env.HTTPPROXY){
 require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY=process.env.HTTP_PROXY;
+global.GLOBAL_AGENT.HTTP_PROXY=process.env.HTTPPROXY;
 }
 const $ = new Env('东东农场好友删减奖励');
 let cookiesArr = [], cookie = '', isBox = false, notify,allMessage = '';
