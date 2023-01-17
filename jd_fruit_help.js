@@ -26,7 +26,7 @@ export DO_TEN_WATER_AGAIN="" 默认再次浇水
 */
 if(process.env.HTTPPROXY){
 require("global-agent/bootstrap");
-global.GLOBAL_AGENT.HTTP_PROXY=process.env.HTTPPROXY;
+global.GLOBAL_AGENT.HTTPS_PROXY=process.env.HTTPPROXY;
 }
 const $ = new Env('东东农场内部水滴互助');
 let cookiesArr = [],
