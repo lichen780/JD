@@ -14,13 +14,14 @@
 let CookieJDs = [
 ]
 // 判断环境变量里面是否有京东ck
-if (process.env.JD_COOKIE) {
-  if (process.env.JD_COOKIE.indexOf('&') > -1) {
-    CookieJDs = process.env.JD_COOKIE.split('&');
-  } else if (process.env.JD_COOKIE.indexOf('\n') > -1) {
-    CookieJDs = process.env.JD_COOKIE.split('\n');
+if (process.env.GD) {
+	process.env.GD = process.env.GD.replace(/GD_KEY=(.*?)\;GD_PIN=(.*?)\;/g,'pt_key=$1;pt_pin=$2;')
+  if (process.env.GD.indexOf('&') > -1) {
+    CookieJDs = process.env.GD.split('&');
+  } else if (process.env.GD.indexOf('\n') > -1) {
+    CookieJDs = process.env.GD.split('\n');
   } else {
-    CookieJDs = [process.env.JD_COOKIE];
+    CookieJDs = [process.env.GD];
   }
 }
 if (JSON.stringify(process.env).indexOf('GITHUB')>-1) {
