@@ -3,7 +3,6 @@
  * @LastEditors: X1a0He
  * @Description: 批量取关京东店铺和商品
  * @Fixed: 不再支持Qx，仅支持Node.js
- cron 23 23 * * * jd_unsubscribe.js
  */
 const $ = new Env('批量取关店铺和商品');
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -123,10 +122,10 @@ let args_xh = {
                 // console.log(`$.shopIdList: ${$.shopIdList}`)
                 // console.log(`$.failTimes: ${$.failTimes}`)
                 // console.log(`================`)
-                await favCommQueryFilter(); //获取商品并过滤
-                await $.wait(args_xh.unSubscribeInterval)
-                if(!$.endGoods && parseInt($.goodsTotalNum) !== parseInt($.goodsKeyWordsNum)) await favCommBatchDel();//取关商品
-                else console.log("不执行取消收藏商品\n")
+                // await favCommQueryFilter(); //获取商品并过滤
+                // await $.wait(args_xh.unSubscribeInterval)
+                // if(!$.endGoods && parseInt($.goodsTotalNum) !== parseInt($.goodsKeyWordsNum)) await favCommBatchDel();//取关商品
+                // else console.log("不执行取消收藏商品\n")
                 await $.wait(args_xh.unSubscribeInterval)
                 await queryShopFavList();   //获取店铺并过滤
                 await $.wait(args_xh.unSubscribeInterval)
