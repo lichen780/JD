@@ -1,5 +1,5 @@
 #!/bin/bash
-# new Env('BBK-炸年兽任务');
+# new Env('BBK-拆快递任务');
 # export JD_LOG_XYZ_TOKEN="从机器人获取的token"
 # export Proxy_Url="代理网址 例如：星空、熊猫 生成选择txt 一次一个"
 # export CXJ_OPEN_CARD_TASK="true" # 默认不做开卡任务，要做开卡任务就设置
