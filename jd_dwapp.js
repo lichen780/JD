@@ -1,8 +1,8 @@
 /*
 积分换话费
 入口：首页-生活·缴费-积分换话费 
-update：2023/6/10
-33 3,18 * * * jd_dwapp.js
+update：2023/6/10 by:6dy
+33 7 * * * jd_dwapp.js
 */
 
 const $ = new Env('积分换话费');
@@ -42,25 +42,29 @@ if ($.isNode()) {
             }
             $.UUID = getUUID('xxxxxxxxxxxxxxxx');
             await main()
+						await $.wait(parseInt(Math.random() * 3000 + 3200, 10))
         }
     }
 })().catch((e) => { $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '') }).finally(() => { $.done(); })
 
 async function main() {
     $.log("去签到")
-    await usersign()
+    await $.wait(parseInt(Math.random() * 1000 + 1000, 10))
+		await usersign()
+		await $.wait(parseInt(Math.random() * 2000 + 3200, 10))
     await tasklist();
     if ($.tasklist) {
         for (let i of $.tasklist) {
             if (i.viewStatus == 0) {
                 console.log(`去做 ${i.taskDesc}`);
                 await taskrecord(i.id);
-                await $.wait(3000);
+                await $.wait(parseInt(Math.random() * 2000 + 2200, 10))
                 console.log(`去领积分`);
                 await taskreceive(i.id)
             } else if (i.viewStatus == 2) {
                 console.log(`去领积分`);
                 await taskreceive(i.id);
+								await $.wait(parseInt(Math.random() * 2000 + 2200, 10))
             } else if (i.viewStatus == 1) {
                 $.log(`${i.name} 已完成浏览`);
             }
@@ -131,9 +135,21 @@ async function taskreceive(id) {
 }
 
 async function usersign() {
-    body = await sign()
+    body = await sign();
+    body.channelSource = 'txzs';
+    let opt = {
+        url: `https://api.m.jd.com/user/color/task/dwSign`,
+        body: `appid=txsm-m&client=h5&functionId=DATAWALLET_USER_SIGN&body=${encodeURIComponent(JSON.stringify(body))}`,
+        headers: {
+            "Origin": "https://txsm-m.jd.com",
+            "Accept": "*/*",
+            "User-Agent": `jdapp;iPhone;10.1.0;13.5;${$.UUID};network/wifi;model/iPhone11,6;addressid/4596882376;appBuild/167774;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`,
+            "Referer": "https://txsm-m.jd.com/",
+            "Cookie": cookie,
+        }
+    }
     return new Promise(resolve => {
-        $.post(taskPostUrl("dwSign", body), (err, resp, data) => {
+        $.post(opt, (err, resp, data) => {
             try {
                 if (err) {
                     console.log(`${err}`)
@@ -145,8 +161,12 @@ async function usersign() {
                         if (data.code === 200) {
                             console.log(`签到成功：获得积分${data.data.signInfo.signNum}`);
                             $.log(`总积分：${data.data.totalNum}\n`);
+                        } else if (data.code === 451) {
+                            console.log(data.msg);
+                        } else if (data.code === 302) {
+                            console.log(data.msg);
                         } else {
-                            console.log("似乎签到完成了\n");
+                            console.log(data.msg);
                         }
                     }
                 }
@@ -183,7 +203,11 @@ async function tasklist() {
                 } else {
                     data = JSON.parse(data)
                     if (data) {
-                        $.tasklist = data.data
+                        if(data.code == 200) {
+													$.tasklist = data.data
+												} else {
+                            console.log(data.msg);
+                        }
                     }
                 }
             } catch (e) {
@@ -213,7 +237,6 @@ function taskPostUrl(function_id, body) {
         }
     }
 }
-
 function TotalBean() {
     return new Promise(async resolve => {
         const options = {
