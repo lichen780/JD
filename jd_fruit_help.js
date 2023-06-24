@@ -105,7 +105,7 @@ let NoNeedCodes = [];
 							}
 							if(lnrun == 10){
 								console.log(`\n【访问接口次数达到10次，休息一分钟.....】\n`);
-								await $.wait(60*1000);
+								await $.wait(6*1000);
 								lnrun = 0;
 							}
           }
