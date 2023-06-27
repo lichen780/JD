@@ -57,13 +57,13 @@ if (NOT_TYPE) {
 let PASS_SCRIPT = process.env.PASS_SCRIPT ? process.env.PASS_SCRIPT : '';
 // 检测脚本在不在黑白名单
 if (PASS_SCRIPT.split('&').indexOf(process.argv[1].split('/').reverse()[0]) !== -1) {
-    console.log("这里可以填写代理 PASS_SCRIPT为白名单");
+    console.log("这里可以填写代理 PASS_SCRIPT为白名单，目前正在使用代理运行脚本。");
     // 下面两行和代理有关
      bootstrap();
      GLOBAL_AGENT.HTTP_PROXY = JK_ALL_PROXY;
     return
 } else {
-    console.log("PASS_SCRIPT 黑名单提示你，你已经进入PASS_SCRIPT管辖范围");
+    console.log("PASS_SCRIPT 黑名单提示你，你已经进入PASS_SCRIPT管辖范围，未使用代理运行脚本。");
     // 下面两行和代理有关
     // bootstrap();
     // GLOBAL_AGENT.HTTP_PROXY = JK_ALL_PROXY;
