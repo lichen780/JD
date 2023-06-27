@@ -1,3 +1,4 @@
+require('./proxy.js')
 /*
 ================================================================================
 魔改自 https://github.com/shufflewzc/faker2/blob/main/jdCookie.js
