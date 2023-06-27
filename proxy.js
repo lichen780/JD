@@ -59,8 +59,8 @@ let PASS_SCRIPT = process.env.PASS_SCRIPT ? process.env.PASS_SCRIPT : '';
 if (PASS_SCRIPT.split('&').indexOf(process.argv[1].split('/').reverse()[0]) !== -1) {
     console.log("这里可以填写代理 PASS_SCRIPT为白名单");
     // 下面两行和代理有关
-    // bootstrap();
-    // GLOBAL_AGENT.HTTP_PROXY = JK_ALL_PROXY;
+     bootstrap();
+     GLOBAL_AGENT.HTTP_PROXY = JK_ALL_PROXY;
     return
 } else {
     console.log("PASS_SCRIPT 黑名单提示你，你已经进入PASS_SCRIPT管辖范围");
