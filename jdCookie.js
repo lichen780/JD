@@ -15,14 +15,14 @@ require('./proxy.js')
 let CookieJDs = [
 ]
 // 判断环境变量里面是否有京东ck
-if (process.env.GD) {
-	process.env.GD = process.env.GD.replace(/GD_KEY=(.*?)\;GD_PIN=(.*?)\;/g,'pt_key=$1;pt_pin=$2;')
-  if (process.env.GD.indexOf('&') > -1) {
-    CookieJDs = process.env.GD.split('&');
-  } else if (process.env.GD.indexOf('\n') > -1) {
-    CookieJDs = process.env.GD.split('\n');
+if (process.env.GD_CK) {
+	process.env.GD_CK = process.env.GD_CK.replace(/GD_KEY=(.*?)\;GD_PIN=(.*?)\;/g,'pt_key=$1;pt_pin=$2;')
+  if (process.env.GD_CK.indexOf('&') > -1) {
+    CookieJDs = process.env.GD_CK.split('&');
+  } else if (process.env.GD_CK.indexOf('\n') > -1) {
+    CookieJDs = process.env.GD_CK.split('\n');
   } else {
-    CookieJDs = [process.env.GD];
+    CookieJDs = [process.env.GD_CK];
   }
 }
 if (JSON.stringify(process.env).indexOf('GITHUB')>-1) {
