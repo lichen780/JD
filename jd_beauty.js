@@ -6,7 +6,6 @@ https://raw.githubusercontent.com/aTenb/jdOpenSharePicker/master/jd_beautyStudy.
 来源 Dylan
 活动入口：京东app首页-美妆馆-底部中间按钮
 定时自定义，集中访问可能炸
-cron 10 10,17 * * * jd_beauty.js
  */
 const $ = new Env('美丽研究院');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -630,7 +629,7 @@ async function getIsvToken2() {
 }
 function getSignfromDY(functionId, body) {	
 let data={'fn':functionId,'body':JSON.stringify(body)};
-	let optionsions={'url':'https://api.nolanstore.top/sign','body':JSON.stringify(data),'headers':{"Content-Type": "application/json"},'timeout':30000};
+	let optionsions={'url':'https://api.nolanstore.cc/sign','body':JSON.stringify(data),'headers':{"Content-Type": "application/json"},'timeout':30000};
 	return new Promise(async resolve=>{
 		$.post(optionsions,(err,resp,data)=>{
 			try{
