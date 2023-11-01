@@ -1,297 +1,206 @@
 /*
-积分换话费
-入口：首页-生活·缴费-积分换话费 
-update：2023/6/23
-20 2,15 * * * jd_dwapp.js
-*/
-
-const $ = new Env('积分换话费');
-const notify = $.isNode() ? require('./sendNotify') : '';
+东东乐园@wenmoux
+活动入口：东东农场->东东乐园(点大风车
+好像没啥用 就20💧
+更新地址：https://raw.githubusercontent.com/Wenmoux/scripts/wen/jd/jd_ddnc_farmpark.js
+已支持IOS双京东账号, Node.js支持N个京东账号
+脚本兼容: QuantumultX, Surge, Loon, 小火箭，JSBox, Node.js
+============Quantumultx===============
+[task_local]
+#东东乐园
+35 7 * * * jd_ddly.js, tag=东东乐园
+================Loon==============
+[Script]
+cron "35 7 * * *" script-path=jd_ddly.js tag=东东乐园
+===============Surge=================
+东东乐园 = type=cron,cronexp="35 7 * * *",wake-system=1,timeout=3600,script-path=jd_ddly.js
+============小火箭=========
+东东乐园 = type=cron,script-path=jd_ddly.js, cronexpr="35 7 * * *", timeout=3600, enable=true
+ */
+const $ = new Env('东东乐园');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
+
+const randomCount = $.isNode() ? 20 : 5;
+const notify = $.isNode() ? require('./sendNotify') : '';
+let merge = {}
+let codeList = []
 //IOS等用户直接用NobyDa的jd cookie
-let cookiesArr = [], cookie = '';
+let cookiesArr = [],
+    cookie = '';
 if ($.isNode()) {
-    Object.keys(jdCookieNode).forEach((item) => { cookiesArr.push(jdCookieNode[item]) })
+    Object.keys(jdCookieNode).forEach((item) => {
+        cookiesArr.push(jdCookieNode[item])
+    })
     if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => { };
 } else {
     cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
+
+const JD_API_HOST = `https://api.m.jd.com/client.action`;
+
 !(async () => {
     if (!cookiesArr[0]) {
-        $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+        $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
+            "open-url": "https://bean.m.jd.com/"
+        });
         return;
     }
+
     for (let i = 0; i < cookiesArr.length; i++) {
-        if (cookiesArr[i]) {
-            cookie = cookiesArr[i];
+        cookie = cookiesArr[i];
+        if (cookie) {
             $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
             $.index = i + 1;
             $.isLogin = true;
             $.nickName = '';
-            message = '';
-            await TotalBean();
+            $.beans = 0
+            $.taskList = []
+            message = ''
             console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
             if (!$.isLogin) {
-                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {
+                    "open-url": "https://bean.m.jd.com/bean/signIndex.action"
+                });
+
                 if ($.isNode()) {
                     await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
                 }
                 continue
             }
-            $.UUID = getUUID('xxxxxxxxxxxxxxxx');
-            await main();
-            await $.wait(5000);
-        }
-    }
-})().catch((e) => { $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '') }).finally(() => { $.done(); })
-
-async function main() {
-    $.log("去签到")
-    await usersign();
-    await $.wait(2000);
-    await tasklist();
-    if ($.tasklist) {
-        for (let i of $.tasklist) {
-            if (i.viewStatus == 0) {
-                console.log(`去做 ${i.taskDesc}`);
-                await taskrecord(i.id);
-                await $.wait(3000);
-                console.log(`去领积分`);
-                await taskreceive(i.id)
-            } else if (i.viewStatus == 2) {
-                console.log(`去领积分`);
-                await taskreceive(i.id);
-            } else if (i.viewStatus == 1) {
-                $.log(`${i.name} 已完成浏览`);
-            }
-        }
-    }
-}
-async function taskrecord(id) {
-    enc = await sign(id + "1")
-    let body = { "id": id, "agentNum": "m", "taskType": 1, "followChannelStatus": "", ...enc }
-    return new Promise(resolve => {
-        $.post(taskPostUrl("task/dwRecord", body), (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${err}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
+            await parkInit()
+            for (task of $.taskList) {
+                if (task.topResource.task.status == 3) {
+                    console.log(`任务 ${task.topResource.title} 已完成`)
                 } else {
-                    data = JSON.parse(data)
-                    if (data) {
-                        if (data.code === 200) {
-                            if (data.data.dwUserTask) {
-                                $.log("----领取任务成功")
-                            } else {
-                                $.log("----此任务已经领取过了")
-                            }
-                        } else {
-                            console.log(JSON.stringify(data))
-                        }
-                    }
+                    console.log("去浏览：" + task.topResource.title)
+                    let index = task.name.match(/\d+/)[0] - 1
+                    console.log(task.topResource.task.advertId, index, task.type)
+                    await browse(task.topResource.task.advertId)
+                    await $.wait(1000);
+                    await browseAward(task.topResource.task.advertId, index, task.type)
                 }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data);
             }
-        })
-    })
-
-}
-
-async function taskreceive(id) {
-    enc = await sign(id)
-    let body = { "id": id, ...enc }
-    return new Promise(resolve => {
-        $.post(taskPostUrl("task/dwReceive", body), (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${err}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
-                } else {
-                    data = JSON.parse(data)
-                    if (data) {
-                        if (data.code === 200 && data.data.success) {
-                            console.log(`----领取成功：获得${data.data.giveScoreNum}积分`);
-                        } else if (data.code === 200 && !data.data.success) {
-                            console.log("----积分已经领取完了");
-                        } else {
-                            console.log(JSON.stringify(data));
-                        }
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data);
-            }
-        })
-    })
-}
-
-async function usersign() {
-    body = await sign();
-    body.channelSource = 'txzs';
-    let opt = {
-        url: `https://api.m.jd.com/user/color/task/dwSign`,
-        body: `appid=txsm-m&client=h5&functionId=DATAWALLET_USER_SIGN&body=${encodeURIComponent(JSON.stringify(body))}`,
-        headers: {
-            "Origin": "https://txsm-m.jd.com",
-            "Accept": "*/*",
-            "User-Agent": `jdapp;iPhone;10.1.0;13.5;${$.UUID};network/wifi;model/iPhone11,6;addressid/4596882376;appBuild/167774;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`,
-            "Referer": "https://txsm-m.jd.com/",
-            "Cookie": cookie,
+            //console.log(`\n集勋章得好礼  By：【zero205】`)
+            //console.log(`\n由于我自己写这个脚本的时候已经手动开启活动了\n所以不知道开启活动的代码\n没有开启的手动开启吧，活动入口：东东农场->水车\n`)
+            //await collect()
         }
     }
-    return new Promise(resolve => {
-        $.post(opt, (err, resp, data) => {
+
+
+})()
+    .catch((e) => $.logErr(e))
+    .finally(() => $.done())
+//获取活动信息
+
+
+
+
+function browseAward(id, index, type) {
+    return new Promise(async (resolve) => {
+        const options = taskUrl("ddnc_farmpark_browseAward", `{"version":"1","channel":1,"advertId":"${id}","index":${index},"type":${type}}`)
+        //  console.log(options)
+        $.post(options, async (err, resp, data) => {
             try {
                 if (err) {
-                    console.log(`${err}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
+                    console.log(`${JSON.stringify(err)}`);
+                    console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
                     data = JSON.parse(data);
-                    if (data) {
-                        if (data.code === 200) {
-                            console.log(`签到成功：获得积分${data.data.signInfo.signNum}`);
-                            $.log(`总积分：${data.data.totalNum}\n`);
-                        } else if(data.code === 302){
-                            console.log("已完成签到！！！\n");
-                        } else {
-							$.log(JSON.stringify(data));
-						}
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data);
-            }
-        })
-    })
-}
-
-async function tasklist() {
-    body = await sign();
-    body.channelSource = 'txzs';
-    let opt = {
-        url: `https://api.m.jd.com/user/color/task/dwList`,
-        body: `appid=txsm-m&client=h5&functionId=dwapp_task_dwList&body=${encodeURIComponent(JSON.stringify(body))}`,
-        headers: {
-            "Origin": "https://txsm-m.jd.com",
-            "Accept": "*/*",
-            "User-Agent": `jdapp;iPhone;10.1.0;13.5;${$.UUID};network/wifi;model/iPhone11,6;addressid/4596882376;appBuild/167774;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`,
-            "Referer": "https://txsm-m.jd.com/",
-            "Cookie": cookie,
-        }
-    }
-
-    return new Promise(resolve => {
-        $.post(opt, (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${err}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
-                } else {
-                    data = JSON.parse(data)
-                    if (JSON.stringify(data.data) !='{}') {
-                        $.tasklist = data.data
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data);
-            }
-        })
-    })
-}
-
-function taskPostUrl(function_id, body) {
-    return {
-        url: `https://dwapp.jd.com/user/${function_id}`,
-        body: JSON.stringify(body),
-        headers: {
-            "Host": "dwapp.jd.com",
-            "Origin": "https://prodev.m.jd.com",
-            "Connection": "keep-alive",
-            "Accept": "*/*",
-            "User-Agent": `jdapp;iPhone;10.1.0;13.5;${$.UUID};network/wifi;model/iPhone11,6;addressid/4596882376;appBuild/167774;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`,
-            "Accept-Language": "zh-cn",
-            "Referer": "https://prodev.m.jd.com/mall/active/eEcYM32eezJB7YX4SBihziJCiGV/index.html",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Content-Type": "application/json",
-            "Cookie": cookie,
-        }
-    }
-}
-
-function TotalBean() {
-    return new Promise(async resolve => {
-        const options = {
-            "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
-            "headers": {
-                "Accept": "application/json,text/plain, */*",
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Accept-Language": "zh-cn",
-                "Connection": "keep-alive",
-                "Cookie": cookie,
-                "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-                "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
-            }
-        }
-        $.post(options, (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
-                } else {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data['retcode'] === 13) {
-                            $.isLogin = false; //cookie过期
-                            return
-                        }
-                        if (data['retcode'] === 0) {
-                            $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
-                        } else {
-                            $.nickName = $.UserName
-                        }
+                    //    console.log(data)
+                    if (data.result) {
+                        console.log("领取奖励成功,获得💧" + data.result.waterEnergy)
                     } else {
-                        console.log(`京东服务器返回空数据`)
+                        console.log(JSON.stringify(data))
                     }
+
                 }
             } catch (e) {
-                $.logErr(e, resp)
+                $.logErr(e, resp);
             } finally {
                 resolve();
             }
-        })
-    })
-}
-
-function getUUID(format = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', UpperCase = 0) {
-    return format.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        if (UpperCase) {
-            uuid = v.toString(36).toUpperCase();
-        } else {
-            uuid = v.toString(36)
-        }
-        return uuid;
+        });
     });
 }
 
-async function sign(en) {
-    time = new Date().getTime();
-    let encStr = en || '';
-    const encTail = `${time}e9c398ffcb2d4824b4d0a703e38yffdd`;
-    encStr = CryptoJS.MD5(encStr + encTail).toString()
-    return { "t": time, "encStr": encStr }
+function browse(id) {
+    return new Promise(async (resolve) => {
+        const options = taskUrl("ddnc_farmpark_markBrowser", `{"version":"1","channel":1,"advertId":"${id}"}`)
+        $.post(options, async (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`${JSON.stringify(err)}`);
+                    console.log(`${$.name} API请求失败，请检查网路重试`);
+                } else {
+                    data = JSON.parse(data);
+                    console.log(`浏览 ${id}  : ${data.success}`)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve();
+            }
+        });
+    });
+}
+
+
+function parkInit() {
+    return new Promise(async (resolve) => {
+        const options = taskUrl("ddnc_farmpark_Init", `{"version":"1","channel":1}`)
+        $.post(options, async (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`${JSON.stringify(err)}`);
+                    console.log(`${$.name} API请求失败，请检查网路重试`);
+                } else {
+                    data = JSON.parse(data);
+                    //    console.log(data)
+                    if (data.buildings) {
+                        $.taskList = data.buildings.filter(x => x.topResource.task)
+                    } else {
+                        console.log("获取任务列表失败,你不会是黑鬼吧")
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve();
+            }
+        });
+    });
+}
+
+function taskUrl(functionId, body) {
+    const time = Date.now();
+    return {
+        url: "https://api.m.jd.com/client.action",
+        body: `functionId=${functionId}&body=${encodeURIComponent(body)}&client=wh5&clientVersion=1.0.0&uuid=`,
+        headers: {
+            Accept: "application/json,text/plain, */*",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-cn",
+            Connection: "keep-alive",
+            Cookie: cookie,
+            Host: "api.m.jd.com",
+            Referer: "https://h5.m.jd.com/babelDiy/Zeus/J1C5d6E7VHb2vrb5sJijMPuj29K/index.html?babelChannel=ttt1&lng=107.147086&lat=33.255079&sid=cad74d1c843bd47422ae20cadf6fe5aw&un_area=8_573_6627_52446",
+            "User-Agent": "jdapp;android;9.4.4;10;3b78ecc3f490c7ba;network/UNKNOWN;model/M2006J10C;addressid/138543439;aid/3b78ecc3f490c7ba;oaid/7d5870c5a1696881;osVer/29;appBuild/85576;psn/3b78ecc3f490c7ba|541;psq/2;uid/3b78ecc3f490c7ba;adk/;ads/;pap/JA2015_311210|9.2.4|ANDROID 10;osv/10;pv/548.2;jdv/0|iosapp|t_335139774|appshare|CopyURL|1606277982178|1606277986;ref/com.jd.lib.personal.view.fragment.JDPersonalFragment;partner/xiaomi001;apprpd/MyJD_Main;Mozilla/5.0 (Linux; Android 10; M2006J10C Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
+        }
+    }
+}
+
+function jsonParse(str) {
+    if (typeof str == "string") {
+        try {
+            return JSON.parse(str);
+        } catch (e) {
+            console.log(e);
+            $.msg($.name, '', '请勿随意在BoxJs输入框修改内容\n建议通过脚本去获取cookie')
+            return [];
+        }
+    }
 }
 
 // prettier-ignore
